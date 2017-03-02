@@ -1,5 +1,7 @@
 # react-scripts
 
+**Forked from `react-scripts@0.9.2`**
+
 This package includes scripts and configuration used by [Create React App](https://github.com/facebookincubator/create-react-app).<br>
 Please refer to its documentation:
 
