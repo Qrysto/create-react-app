@@ -81,16 +81,17 @@ module.exports = {
     // We placed these paths second because we want `node_modules` to "win"
     // if there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
-    modules: ['node_modules'].concat(paths.nodePaths).concat(paths.appSrc),
+    modules: ['node_modules'].concat(paths.nodePaths),
     // These are the reasonable defaults supported by the Node ecosystem.
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
-    extensions: ['.js', '.json', '.jsx'],
+    extensions: ['.js', '.json', '.jsx', 'styl'],
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'common': path.resolve(paths.appSrc, 'common'),
     }
   },
   // @remove-on-eject-begin
@@ -137,7 +138,7 @@ module.exports = {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
-          /\.css$/,
+          /\.styl$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -169,12 +170,14 @@ module.exports = {
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
       {
-        test: /\.css$/,
+        test: /\.styl$/,
         use: [
           'style-loader', {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
+              importLoaders: 2,
+              modules: true,
+              localIdentName: '[path]-[name]-[local]-[hash:base64:4]',
             }
           }, {
             loader: 'postcss-loader',
@@ -193,6 +196,8 @@ module.exports = {
                 ]
               }
             }
+          }, {
+            loader: 'stylus-loader'
           }
         ]
       },

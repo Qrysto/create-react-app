@@ -91,11 +91,12 @@ module.exports = {
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
-    extensions: ['.js', '.json', '.jsx'],
+    extensions: ['.js', '.json', '.jsx', 'styl'],
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      'react-native': 'react-native-web',
+      'common': path.resolve(paths.appSrc, 'common'),
     }
   },
   // @remove-on-eject-begin
@@ -144,7 +145,7 @@ module.exports = {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
-          /\.css$/,
+          /\.styl$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -179,14 +180,16 @@ module.exports = {
       // use the "style" loader inside the async code so CSS from them won't be
       // in the main CSS file.
       {
-        test: /\.css$/,
+        test: /\.styl$/,
         loader: ExtractTextPlugin.extract(Object.assign({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 1
+                importLoaders: 2,
+                modules: true,
+                localIdentName: '[hash:base64:6]',
               }
             }, {
               loader: 'postcss-loader',
@@ -205,6 +208,8 @@ module.exports = {
                   ]
                 }
               }
+            }, {
+              loader: 'stylus-loader'
             }
           ]
         }, extractTextPluginOptions))
