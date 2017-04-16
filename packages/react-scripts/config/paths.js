@@ -116,3 +116,5 @@ module.exports = {
 
 var reactScriptsPath = path.resolve('node_modules/react-scripts');
 var reactScriptsLinked = fs.existsSync(reactScriptsPath) && fs.lstatSync(reactScriptsPath).isSymbolicLink();
+
+// @remove-on-eject-end
